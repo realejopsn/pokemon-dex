@@ -1,0 +1,19 @@
+<main class="pokemon-main-container">
+  <h1>Pokémon</h1>
+  <section class="pokemon-list-section">
+    <ul class="pokemon-list">
+      <li class="pokemon-item" *ngFor="let pokemon of pokemons$ | async" >
+        <div class="pokemon-card" (click)="viewDetails(pokemon.url)" [style.backgroundColor]="pokemon.color">
+          <img class="pokemon-image" [src]="getPokemonImageUrl(getPokemonId(pokemon.url))" alt="{{pokemon.name}}">
+          <p class="pokemon-name">{{ pokemon.name }}</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="pagination-controls">
+    <button class="pagination-btn arrow left" (click)="previousPage()" [disabled]="currentPage === 1"></button>
+    <span class="page-number">Page {{currentPage}}</span>
+    <button class="pagination-btn arrow right" (click)="nextPage()"></button>
+  </section>
+</main>

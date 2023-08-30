@@ -1,0 +1,49 @@
+<div class="pokemon-detail-container" *ngIf="pokemon$ | async as pokemon; else loading" [style.backgroundColor]="backgroundColor">
+  <div *ngIf="pokemon$ | async as pokemon; else errorContent">
+    <div class="pokemon-card"  >
+      <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" class="pokemon-image">
+      <h1 class="pokemon-name">{{ pokemon.name | capitalize}}</h1>
+
+      <!-- Pokémon Details -->
+      <div class="pokemon-details" >
+        <p>Height: {{ pokemon.height }} inches</p>
+        <p>Weight: {{ pokemon.weight }} pounds</p>
+        <p>Experience: {{ pokemon.base_experience }}</p>
+      </div>
+
+        <!-- Types -->
+      <div class="pokemon-types">
+        <p><strong>Types</strong></p>
+        <span class="type" *ngFor="let type of pokemon.types"  [style.backgroundColor]="cardColor">{{ type.type.name }}</span>
+      </div>
+
+        <!-- Abilities -->
+      <div class="pokemon-abilities">
+        <p><strong>Abilities</strong></p>
+        <span class="ability" *ngFor="let ability of pokemon.abilities" [style.backgroundColor]="pillColor" [style.color]="'white'">{{ ability.ability.name }}</span>
+      </div>
+
+      <div class="control-buttons">
+        <!-- Come Back Button -->
+        <button class="come-back-button" (click)="goBack()">← Come Back</button>
+        <!-- Next Button -->
+        <button class="next-button" (click)="nextPokemon()">Next →</button>
+      </div>
+      
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <h1 class="pokemon-name">Loading Pokemon</h1>
+    <div class="loadingIcon"></div>
+  </div>
+</ng-template>
+
+<ng-template #errorContent>
+  <div class="error-container" *ngIf="errorMessage">
+    <p class="error-message">{{ errorMessage }}</p>
+  </div>
+</ng-template>

@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('/assets/fonts/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  height: 100%; // Ensure the body takes up the full viewport height
+  margin: 0; // Reset any default margin
+  font-family: 'Press Start 2P', sans-serif;
+  overflow: hidden; // Prevent any unexpected scrolling
+}

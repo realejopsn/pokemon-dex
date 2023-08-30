@@ -1,0 +1,252 @@
+@import '../../../assets/scss/main.scss';
+
+$background-color: #F7F7F7;
+$btn-background: $secondary-color;
+
+html, body {
+  height: 100%; // Ensure the body takes up the full viewport height
+  margin: 0; // Reset any default margin
+  font-family: 'Press Start 2P', sans-serif;
+  overflow: hidden; // Prevent any unexpected scrolling
+}
+
+.pokemon-main-container {
+  background-color: #c63639;
+  padding: 0.3em;
+  min-height: 100vh; // Make sure it covers the full viewport height
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    text-align: center;
+    color: $background-color !important;
+    font-size: 24px;
+    margin: 30px 0;
+  }
+}
+
+.pokemon-list-section {
+  display: flex;
+  background-color: #e2dede;
+  border-radius: 15px;
+  padding: 1em;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  width: 45vw;
+  height: 70vh;
+  margin: auto;
+
+  &::before {
+    content: '';
+    background: url('https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png') no-repeat center;
+    background-size: contain;
+    filter: opacity(.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+  }
+}
+
+.pokemon-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+  overflow: scroll;
+  .pokemon-item{
+    flex-grow: 0;
+    margin: .3em;
+  }
+}
+
+.pokemon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.4s ease-in-out;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    filter: opacity(.7);
+  }
+
+  &:active {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  }
+
+  .pokemon-image {
+    width: 110px;
+    height: 110px;
+  }
+
+  .pokemon-name {
+    text-transform: capitalize;
+    font-weight: bold;
+    color: $text-color;
+    text-shadow: 0 0 2px black;
+    font-size: 12px;
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 1em;
+
+  .pagination-btn {
+    background-color: $background-color;
+    border: none;
+    border-radius: 50%; // Make the buttons circular
+    color: darken($background-color, 20%);
+    width: 40px;  // Set a fixed width
+    height: 40px;  // Set a fixed height
+    display: flex;  // Use flexbox for centering
+    justify-content: center;  // Center content horizontally
+    align-items: center;  // Center content vertically
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0 10px;
+    font-size: 1.5rem; // Increase font size for clear visibility of the arrow
+
+    // For the previous button:
+    &:first-child:before {
+      content: '←';  // Left arrow
+      position: relative;
+    }
+
+    // For the next button:
+    &:last-child:before {
+      content: '→';  // Right arrow
+      position: relative;
+    }
+
+    &:hover {
+      background-color: darken($background-color, 10%);  // Darken the background on hover
+      transform: scale(1.1);  // Slight scaling for a zoom effect
+    }
+
+    &:disabled {
+      background-color: rgba(170, 170, 170, 0.3);
+      cursor: not-allowed;
+
+      &:hover {
+        transform: scale(1);  // No scaling effect for disabled buttons
+      }
+    }
+  }
+
+  .page-number {
+    background-color: #ffffff;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    color: $btn-background;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .pokemon-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100% ;
+  }
+
+  .pokemon-card {
+    animation: fadeInUp 0.4s ease;
+
+    .pokemon-image {
+      width: 90px;
+      height: 90px;
+    }
+
+    .pokemon-name {
+      font-size: 10px;
+    }
+  }
+
+  .pagination-controls {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .pokemon-list-section {
+    margin: 1em;
+    height: 65vh !important;
+    width: 80% ;
+    margin: auto;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pokemon-main-container h1 {
+  // Improve contrast for better readability
+  color: darken($background-color, 10%) !important;
+}
+
+.pokemon-card {
+  // Better contrast for the text shadow
+  .pokemon-name {
+    text-shadow: 0 0 3px black;
+  }
+
+  // A clear focus state for keyboard navigation
+  &:focus {
+    outline: 3px solid $btn-background;
+    box-shadow: 0 0 0 3px rgba($btn-background, 0.5);
+  }
+}
+
+.pagination-controls {
+  .pagination-btn {
+    // Enhance contrast for better readability
+    color: darken($background-color, 20%);
+
+    // Clear focus state
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($btn-background, 0.5);
+    }
+
+    // Accessible hover and active states
+    &:hover {
+      background-color: darken($background-color, 15%);
+    }
+    &:active {
+      background-color: darken($background-color, 25%);
+    }
+
+    // Indicating a disabled state clearly
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
