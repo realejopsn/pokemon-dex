@@ -1,9 +1,10 @@
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Observable, forkJoin, mergeMap } from 'rxjs';
 
 import { State } from '../../shared/store/pokemon.reducer';
+import { Pokemon } from 'src/app/shared/models/pokemon.model';
 import { loadPokemons } from '../../shared/store/pokemon.actions';
 import { PokemonService } from 'src/app/shared/service/pokemon.service';
 
@@ -16,14 +17,14 @@ import { PokemonService } from 'src/app/shared/service/pokemon.service';
 export class PokemonListViewComponent implements OnInit {
   pokemons$: Observable<any>;
   currentPage = 1;
-  itemsPerPage = 25;
+  itemsPerPage = 24;
 
   constructor(private store: Store<{ pokemon: State }>, private router: Router, public pokemonService: PokemonService) {
     this.pokemons$ = this.store.select('pokemon', 'pokemons')
       .pipe(
-        map(pokemons => pokemons.map(pokemon => {
-          return { ...pokemon, color: this.pokemonService.getRandomColor() }
-        }))
+        mergeMap(pokemons => {
+          return this.getDetailedPokemonInfo(pokemons);
+        })
       );
   }
 
@@ -48,8 +49,17 @@ export class PokemonListViewComponent implements OnInit {
     }
   }
 
-  viewDetails(url: string): void {
-    this.router.navigate(['/pokemon-detail', this.getPokemonId(url)]);
+  getDetailedPokemonInfo(pokemons: any[]): Observable<any[]> {
+    return forkJoin(
+      pokemons.map(pokemon => {
+        const pokemonId = this.getPokemonId(pokemon.url);
+        return this.pokemonService.getPokemonDetail(pokemonId);
+      })
+    );
+  }
+
+  viewDetails(id: string): void {
+    this.router.navigate(['/pokemon-detail',id]);
   }
 
   getPokemonId(url: string): number {
@@ -59,5 +69,9 @@ export class PokemonListViewComponent implements OnInit {
 
   getPokemonImageUrl(id: number): string {
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+  }
+
+  getType(pokemon: Pokemon): string {
+    return this.pokemonService.getType(pokemon);
   }
 }
