@@ -1,19 +1,44 @@
-<main class="pokemon-main-container">
-  <h1>Pokémon</h1>
-  <section class="pokemon-list-section">
-    <ul class="pokemon-list">
-      <li class="pokemon-item" *ngFor="let pokemon of pokemons$ | async" >
-        <div class="pokemon-card" (click)="viewDetails(pokemon.url)" [style.backgroundColor]="pokemon.color">
-          <img class="pokemon-image" [src]="getPokemonImageUrl(getPokemonId(pokemon.url))" alt="{{pokemon.name}}">
-          <p class="pokemon-name">{{ pokemon.name }}</p>
+<div class="main-container" *ngIf="pokemons$ | async; else loading">
+  <section>
+    <h1 class="pokemon-style">Pokedex</h1>
+    <article class="card-container">
+        <div class="card-body bg-{{getType(pokemon)}}" *ngFor="let pokemon of pokemons$ | async; let i = index;" (click)="viewDetails(pokemon.id)">
+            <section class="pokemon-types">
+                <h3>{{pokemon.name}}</h3>
+                <article>
+                    <!-- Displaying the types -->
+                    <span *ngFor="let type of pokemon.types"
+                      class="badge bg-{{getType(pokemon)}}">
+                      {{type.type.name}}
+                    </span>
+                </article>
+            </section>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon.id}}.png" class="img-fluid" alt="{{pokemon.name}}">
         </div>
-      </li>
-    </ul>
+    </article>
   </section>
-
   <section class="pagination-controls">
-    <button class="pagination-btn arrow left" (click)="previousPage()" [disabled]="currentPage === 1"></button>
+    <button class="btn btn-lg text-white" (click)="previousPage()" [disabled]="currentPage === 1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+      </svg>
+    </button>
     <span class="page-number">Page {{currentPage}}</span>
-    <button class="pagination-btn arrow right" (click)="nextPage()"></button>
+    <button class="btn btn-lg text-white" (click)="nextPage()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-right"
+        viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+        </svg>
+    </button>
   </section>
-</main>
+</div>
+<ng-template #loading>
+  <section class="loading-container">
+    <article>
+      <h1>Loading...</h1>
+      <div class="loadingIcon"></div>
+    </article>
+  </section>
+</ng-template>

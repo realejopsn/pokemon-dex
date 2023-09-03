@@ -1,12 +1,12 @@
 import { Store } from '@ngrx/store';
+import { Observable, forkJoin, mergeMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin, mergeMap } from 'rxjs';
 
 import { State } from '../../shared/store/pokemon.reducer';
-import { Pokemon } from 'src/app/shared/models/pokemon.model';
 import { loadPokemons } from '../../shared/store/pokemon.actions';
 import { PokemonService } from 'src/app/shared/service/pokemon.service';
+import { Pokemon } from 'src/app/shared/models/pokemon.model';
 
 @Component({
   selector: 'app-pokemon-list-view',

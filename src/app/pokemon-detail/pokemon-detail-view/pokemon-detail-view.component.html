@@ -1,49 +1,102 @@
-<div class="pokemon-detail-container" *ngIf="pokemon$ | async as pokemon; else loading" [style.backgroundColor]="backgroundColor">
-  <div *ngIf="pokemon$ | async as pokemon; else errorContent">
-    <div class="pokemon-card"  >
-      <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" class="pokemon-image">
-      <h1 class="pokemon-name">{{ pokemon.name | capitalize}}</h1>
-
-      <!-- Pokémon Details -->
-      <div class="pokemon-details" >
-        <p>Height: {{ pokemon.height }} inches</p>
-        <p>Weight: {{ pokemon.weight }} pounds</p>
-        <p>Experience: {{ pokemon.base_experience }}</p>
+<div *ngIf="pokemon$ | async as pokemon; else loading">
+  <div class="bg bg-{{getType(pokemon)}}" *ngIf="pokemon$ | async as pokemon">
+      <div class="container">
+        <section class="top-details-container">
+            <section>
+                <!-- Displaying the types -->
+                <div class="pokemon-types">
+                    <h1>{{pokemon.name | capitalize}}</h1>
+                    <article>
+                        <span *ngFor="let type of pokemon.types"
+                        class="badge bg-{{getType(pokemon)}}">
+                        {{type.type.name | capitalize}}
+                    </span>
+                    </article>
+                </div>
+                <ul class="custom-list-group">
+                    <li class="list-group-item bg-transparent">Experience <b
+                            class="float-end">{{pokemon.base_experience}}</b></li>
+                    <li class="list-group-item bg-transparent">Height <b
+                            class="float-end">{{pokemon.height}}</b></li>
+                    <li class="list-group-item bg-transparent">Weight <b
+                            class="float-end">{{pokemon.weight}}</b></li>
+                </ul>
+            </section>
+            <section>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{{pokemon.id}}.png" alt=""
+                    class="img-fluid">
+            </section>
+        </section>
       </div>
-
-        <!-- Types -->
-      <div class="pokemon-types">
-        <p><strong>Types</strong></p>
-        <span class="type" *ngFor="let type of pokemon.types"  [style.backgroundColor]="cardColor">{{ type.type.name }}</span>
+      <div class="custom-shape-divider-bottom">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+              preserveAspectRatio="none">
+              <path
+                  d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                  class="shape-fill"></path>
+          </svg>
       </div>
+  </div>
 
-        <!-- Abilities -->
-      <div class="pokemon-abilities">
-        <p><strong>Abilities</strong></p>
-        <span class="ability" *ngFor="let ability of pokemon.abilities" [style.backgroundColor]="pillColor" [style.color]="'white'">{{ ability.ability.name }}</span>
-      </div>
-
-      <div class="control-buttons">
-        <!-- Come Back Button -->
-        <button class="come-back-button" (click)="goBack()">← Come Back</button>
-        <!-- Next Button -->
-        <button class="next-button" (click)="nextPokemon()">Next →</button>
-      </div>
-      
+  <div>
+    <!-- stats -->
+    <div class="card-body" *ngIf="pokemon$ | async as pokemon">
+        <h4 class="card-title">Stats</h4>
+        <div *ngFor="let stat of pokemon?.stats">
+            <div class="progress-name">
+                <h6>{{stat.stat.name | capitalize}}</h6>
+            </div>
+            <div class="progress" style="height: 30px">
+                <div class="progress-bar progress-bar-striped bg-{{getType(pokemon)}}"
+                    role="progressbar" style="height: 30px;" [style.width]="stat.base_stat + '%'"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <b>{{stat.base_stat}}</b>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
+    <!-- abilities -->
+    <div class="card-body" *ngIf="pokemon$ | async as pokemon">
+        <section class="pokemon-abilities">
+            <h4 class="card-title">Abilities</h4>
+            <article>
+                <span *ngFor="let ability of pokemon.abilities"
+                class="badge bg-{{getType(pokemon)}}">
+                {{ability.ability.name}}
+                </span>
+            </article>
+        </section>
+    </div>
+    <div class="control-buttons">
+        <button (click)="nextPokemon(false)" [disabled]="validateBeforeButton()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+        </button>
+        <button (click)="nextPokemon(true)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+            viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+        </button>
+  </div>
+  </div>
+  <div class="back-button">
+        <a (click)="goBack()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="currentColor"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+        </a>
+  </div>
 </div>
-
 <ng-template #loading>
-  <div class="loading-container">
-    <h1 class="pokemon-name">Loading Pokemon</h1>
-    <div class="loadingIcon"></div>
-  </div>
-</ng-template>
-
-<ng-template #errorContent>
-  <div class="error-container" *ngIf="errorMessage">
-    <p class="error-message">{{ errorMessage }}</p>
-  </div>
+    <div class="loading-container">
+      <h1 class="pokemon-name">Loading...</h1>
+      <div class="loadingIcon"></div>
+    </div>
 </ng-template>

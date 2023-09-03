@@ -34,20 +34,8 @@ export class PokemonDetailViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDistinctColors();
     this.loadPokemonDetails();
   }
-
-  private setDistinctColors(): void {
-    this.backgroundColor = this.pokemonService.getRandomColor();
-    do {
-        this.cardColor = this.pokemonService.getRandomColor();
-    } while (this.cardColor === this.backgroundColor);
-
-    do {
-        this.pillColor = this.pokemonService.getRandomColor();
-    } while (this.pillColor === this.backgroundColor || this.pillColor === this.cardColor);
-}
 
   private loadPokemonDetails(): void {
     const id = this.getPokemonIdFromRoute();
@@ -68,15 +56,26 @@ export class PokemonDetailViewComponent implements OnInit {
     return `${BASE_IMAGE_URL}/${id}.png`;
   }
 
+  getType(pokemon: Pokemon): string {
+    return this.pokemonService.getType(pokemon);
+  }
+
   goBack() {
     window.history.pushState( {} , 'pokemon-list', '/pokemon-list' );
     window.location.reload();
   }
   
-  nextPokemon() {
+  nextPokemon(next:boolean) {
     // eslint-disable-next-line prefer-const
-    let id = Number(this.route.snapshot.paramMap.get('id')) + 1;
+    let id = Number(this.route.snapshot.paramMap.get('id')) + (next ? 1 : -1);
     window.history.pushState( {} , 'pokemon-detail', '/pokemon-detail/'+id );
     window.location.reload();
+  }
+  validateBeforeButton(){
+    const id = this.getPokemonIdFromRoute();
+    if (id){
+      return id > 1 ? false:true;
+    }
+    return false;
   }
 }

@@ -10,5 +10,206 @@ body {
   height: 100%; // Ensure the body takes up the full viewport height
   margin: 0; // Reset any default margin
   font-family: 'Press Start 2P', sans-serif;
-  overflow: hidden; // Prevent any unexpected scrolling
+  overflow: auto;
+}
+
+.loading-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	gap: 10px;
+	margin-top: 15em;
+	height: 20vh;
+	font-size: 14px;
+
+	.loadingIcon{
+		width: 6em;
+		height: 6em;
+		background: url('https://i.gifer.com/embedded/download/XVo6.gif') no-repeat center;
+		background-size:contain;
+	}
+}
+
+.pokemon-types, .pokemon-abilities {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items:flex-start;
+	padding-top: 2em !important;
+	padding-left: .5em !important;
+
+	// pipe alternative
+	text-transform: capitalize;  
+
+	article{
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: flex-start;
+	  align-items:flex-start;
+	  margin: .5em 0px !important;
+
+	  span {
+		border-radius: 50rem!important;
+		margin-right: 0.25rem!important;
+		border: 1px solid #dee2e6!important;
+		font-size: 8px !important;
+	  }
+	}
+
+	.badge {
+	  display: inline-block;
+	  padding: 0.55em 0.65em !important;
+	  font-size: .75em;
+	  font-weight: 700;
+	  line-height: 1;
+	  color: #fff;
+	  text-align: center;
+	  white-space: nowrap;
+	  vertical-align: initial;
+	}
+}
+
+.bg {
+	position: relative;
+}
+
+.bg-normal {
+	background-color: #A8A77A;
+	color: #fff;
+}
+
+.bg-fire {
+	background-color: #EE8130;
+	color: #fff;
+}
+
+.bg-water {
+	background-color: #6390F0;
+	color: #fff;
+}
+
+.bg-electric {
+	background-color: #F7D02C;
+	color: #fff;
+}
+
+.bg-grass {
+	background-color: #7AC74C;
+	color: #fff;
+}
+
+.bg-ice {
+	background-color: #96D9D6;
+	color: #fff;
+}
+
+.bg-fighting {
+	background-color: #C22E28;
+	color: #fff;
+}
+
+.bg-poison {
+	background-color: #A33EA1;
+	color: #fff;
+}
+
+.bg-ground {
+	background-color: #E2BF65;
+	color: #fff;
+}
+
+.bg-flying {
+	background-color: #A98FF3;
+	color: #fff;
+}
+
+.bg-psychic {
+	background-color: #F95587;
+	color: #fff;
+}
+
+.bg-bug {
+	background-color: #A6B91A;
+	color: #fff;
+}
+
+.bg-rock {
+	background-color: #B6A136;
+	color: #fff;
+}
+
+.bg-ghost, .bg-shadow {
+	background-color: #735797;
+	color: #fff;
+}
+
+.bg-dragon {
+	background-color: #6F35FC;
+	color: #fff;
+}
+
+.bg-dark {
+	background-color: #705746;
+	color: #fff;
+}
+
+.bg-steel {
+	background-color: #B7B7CE;
+	color: #fff;
+}
+
+.bg-fairy {
+	background-color: #D685AD;
+	color: #fff;
+}
+
+.bg-unknown {
+	background-color: #aaa;
+	color: #fff;
+}
+
+.custom-shape-divider-bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	line-height: 0;
+	transform: rotate(180deg);
+  }
+  .custom-shape-divider-bottom svg {
+	position: relative;
+	display: block;
+	width: calc(100% + 1.3px);
+	height: 50px;
+  }
+  .custom-shape-divider-top {
+	position: absolute;
+	top: -1px;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	line-height: 0;
+  }
+  .custom-shape-divider-top svg {
+	position: relative;
+	display: block;
+	width: calc(100% + 1.3px);
+	height: 30px;
+  }
+  .custom-shape-divider-bottom .shape-fill,
+  .custom-shape-divider-top .shape-fill {
+	fill: #FFFFFF;
+  }
+
+@keyframes fadeInUp {
+	0% {
+	  opacity: 0;
+	  transform: translateY(10px);
+	}
+	100% {
+	  opacity: 1;
+	  transform: translateY(0);
+	}
 }
