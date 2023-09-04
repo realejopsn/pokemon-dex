@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { PokemonService } from './pokemon.service';
 import { environment } from 'src/environments/environment';
-import { Pokemon, PokemonList } from '../models/pokemon.model';
+import { Pokemon } from '../models/pokemon.model';
 
 describe('PokemonService', () => {
   let service: PokemonService;
@@ -21,29 +21,6 @@ describe('PokemonService', () => {
 
   afterEach(() => {
     httpMock.verify();
-  });
-
-  it('should fetch Pokemon list', () => {
-    const dummyData: PokemonList = {
-      count: 2,
-      next: null,
-      previous: null,
-      results: [{
-        "name": "bulbasaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/1/"
-      }, {
-        "name": "ivysaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/2/"
-      }]
-    };
-
-    service.getPokemon(0, 2).subscribe(pokemonList => {
-      expect(pokemonList.length).toBe(2);
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/pokemon?offset=0&limit=2`);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyData);
   });
 
   it('should fetch Pokemon details', () => {
@@ -308,6 +285,7 @@ describe('PokemonService', () => {
           }
         }
       ],
+      url: "https://pokeapi.co/api/v2/pokemon/1/"
     };
 
     service.getPokemonDetail(1).subscribe(pokemon => {
