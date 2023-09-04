@@ -14,7 +14,6 @@ export interface Pokemon {
       name: string;
     };
   }[];
-  url: string;
   sprites: Sprites;
   stats: {
     base_stat:number,
@@ -27,7 +26,13 @@ export interface Pokemon {
 }
 
 export interface PokemonList {
-  id: number;
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: PokemonListed[];
+}
+
+export interface PokemonListed {
   name: string;
   url: string;
 }

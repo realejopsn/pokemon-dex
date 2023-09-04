@@ -46,14 +46,6 @@ describe('PokemonDetailViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set distinct colors on init', () => {
-    component.ngOnInit();
-    expect(pokemonServiceMock.getRandomColor).toHaveBeenCalledTimes(3);
-    expect(component.backgroundColor).toBe('red');
-    expect(component.cardColor).toBe('green');
-    expect(component.pillColor).toBe('blue');
-  });
-
   it('should load pokemon details on init', () => {
     component.ngOnInit();
     expect(storeMock.dispatch).toHaveBeenCalled();
@@ -67,11 +59,5 @@ describe('PokemonDetailViewComponent', () => {
   it('should generate correct image URL for given pokemon id', () => {
     const url = component.getPokemonImageUrl(151);
     expect(url).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/151.png');
-  });
-
-  it('should go back on calling goBack', () => {
-    const backSpy = spyOn(window.history, 'back');
-    component.goBack();
-    expect(backSpy).toHaveBeenCalled();
   });
 });

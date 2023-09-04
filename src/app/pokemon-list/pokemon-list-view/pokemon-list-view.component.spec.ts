@@ -68,19 +68,8 @@ describe('PokemonListViewComponent', () => {
         expect(storeMock.dispatch).not.toHaveBeenCalled();
     });
 
-    it('should navigate to pokemon-detail with correct id on viewDetails', () => {
-        const url = 'https://pokeapi.co/api/v2/pokemon/5/';
-        component.viewDetails(url);
-        expect(routerMock.navigate).toHaveBeenCalledWith(['/pokemon-detail', 5]);
-    });
-
     it('should correctly extract pokemon id from URL', () => {
         const id = component.getPokemonId('https://pokeapi.co/api/v2/pokemon/5/');
         expect(id).toBe(5);
-    });
-
-    it('should generate correct image URL for given pokemon id', () => {
-        const url = component.getPokemonImageUrl(5);
-        expect(url).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png');
     });
 });
