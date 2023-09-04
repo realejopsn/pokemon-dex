@@ -9,9 +9,9 @@ import { PokemonListViewComponent } from './pokemon-list-view.component';
 describe('PokemonListViewComponent', () => {
     let component: PokemonListViewComponent;
     let fixture: ComponentFixture<PokemonListViewComponent>;
-    let storeMock: any;
-    let routerMock: any;
-    let pokemonServiceMock: any;
+    let storeMock: Partial<Store>;
+    let routerMock: Partial<Router>;
+    let pokemonServiceMock: PokemonService;
 
     beforeEach(() => {
         storeMock = {
@@ -20,9 +20,6 @@ describe('PokemonListViewComponent', () => {
         };
         routerMock = {
             navigate: jasmine.createSpy()
-        };
-        pokemonServiceMock = {
-            getRandomColor: jasmine.createSpy().and.returnValue('red')
         };
 
         TestBed.configureTestingModule({

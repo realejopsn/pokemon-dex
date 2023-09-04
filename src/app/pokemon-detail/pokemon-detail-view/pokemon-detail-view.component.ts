@@ -62,14 +62,18 @@ export class PokemonDetailViewComponent implements OnInit {
 
   goBack() {
     window.history.pushState( {} , 'pokemon-list', '/pokemon-list' );
+    this.reloadPage();
+  }
+
+  reloadPage(): void {
     window.location.reload();
   }
-  
+
   nextPokemon(next:boolean) {
     // eslint-disable-next-line prefer-const
     let id = Number(this.route.snapshot.paramMap.get('id')) + (next ? 1 : -1);
     window.history.pushState( {} , 'pokemon-detail', '/pokemon-detail/'+id );
-    window.location.reload();
+    this.reloadPage();
   }
   validateBeforeButton(){
     const id = this.getPokemonIdFromRoute();

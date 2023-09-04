@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 
 import { PokemonService } from '../../shared/service/pokemon.service';
@@ -9,9 +9,9 @@ import { PokemonDetailViewComponent } from './pokemon-detail-view.component';
 describe('PokemonDetailViewComponent', () => {
   let component: PokemonDetailViewComponent;
   let fixture: ComponentFixture<PokemonDetailViewComponent>;
-  let storeMock: any;
-  let activatedRouteMock: any;
-  let pokemonServiceMock: any;
+  let storeMock: Partial<Store>;
+  let activatedRouteMock: Partial<ActivatedRoute>;
+  let pokemonServiceMock: PokemonService;
 
   beforeEach(() => {
     storeMock = {
@@ -20,21 +20,41 @@ describe('PokemonDetailViewComponent', () => {
     };
     activatedRouteMock = {
       snapshot: {
+        title: 'Pokemon Detail',
+        url: [],
+        params: {},
+        queryParams: {},
+        fragment: null,
+        data: {},
+        outlet: '',
+        component: null,
+        routeConfig: null,
+        root: {} as ActivatedRouteSnapshot,
+        parent: null,
+        firstChild: null,
+        children: [],
+        pathFromRoot: [],
         paramMap: {
-          get: jasmine.createSpy().and.returnValue('1')
+          get: jasmine.createSpy().and.returnValue('1'),
+          has: jasmine.createSpy(),
+          getAll: jasmine.createSpy(),
+          keys: []
+        },
+        queryParamMap: {
+          get: jasmine.createSpy(),
+          has: jasmine.createSpy(),
+          getAll: jasmine.createSpy(),
+          keys: []
         }
       }
-    };
-    pokemonServiceMock = {
-      getRandomColor: jasmine.createSpy().and.returnValues('red', 'green', 'blue')
     };
 
     TestBed.configureTestingModule({
       declarations: [PokemonDetailViewComponent],
       providers: [
         { provide: Store, useValue: storeMock },
+        { provide: PokemonService, useValue: pokemonServiceMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: PokemonService, useValue: pokemonServiceMock }
       ]
     });
 
@@ -44,6 +64,22 @@ describe('PokemonDetailViewComponent', () => {
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should increment pokemon id when nextPokemon called with true', () => {
+    spyOn(window.history, 'pushState');
+    spyOn(component, 'reloadPage');
+    component.nextPokemon(true);
+    expect(window.history.pushState).toHaveBeenCalledWith({}, 'pokemon-detail', '/pokemon-detail/2');
+    expect(component.reloadPage).toHaveBeenCalled();
+  });
+
+  it('should decrement pokemon id when nextPokemon called with false', () => {
+    spyOn(window.history, 'pushState');
+    spyOn(component, 'reloadPage');
+    component.nextPokemon(false);
+    expect(window.history.pushState).toHaveBeenCalledWith({}, 'pokemon-detail', '/pokemon-detail/0');
+    expect(component.reloadPage).toHaveBeenCalled();
   });
 
   it('should load pokemon details on init', () => {
